@@ -1105,19 +1105,35 @@ function TemplatesPage() {
         </div>
       ) : (
         <div className="flex-1 flex flex-col bg-[#0a0f1c]">
-          <div className="h-14 border-b border-slate-800 bg-slate-950 px-4 lg:px-6 flex items-center gap-3">
+          <div className="h-14 border-b border-slate-800 bg-slate-950 px-6 flex items-center gap-3">
             <div className="w-8 h-8 bg-blue-600/20 rounded-xl flex items-center justify-center">
               <Sparkles className="w-4 h-4 text-blue-400" />
             </div>
             <div>
               <div className="font-semibold text-sm">Cohere AI Assistant</div>
-              <div className="text-[10px] text-slate-500 hidden sm:block">Translation & Text Processing</div>
+              <div className="text-[10px] text-slate-500">Translation & Text Processing</div>
             </div>
             <div className="ml-auto flex items-center gap-2">
+              <button
+                onClick={() => {
+                  if (window.confirm('Clear all AI chat history? This cannot be undone.')) {
+                    setAiMessages([{
+                      id: 1,
+                      text: "Hello! I'm your AI assistant powered by Cohere. Paste any text and I'll help you translate, summarise, rewrite, or improve it. What would you like to do?",
+                      isUser: false,
+                    }]);
+                  }
+                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-slate-900 hover:bg-red-900/50 border border-slate-700 hover:border-red-500/50 text-slate-400 hover:text-red-400 rounded-full transition-colors"
+                title="Clear chat history"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span className="hidden lg:inline">Clear History</span>
+              </button>
               <select
                 value={selectedModel}
                 onChange={e => setSelectedModel(e.target.value)}
-                className="hidden lg:block text-xs bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-full focus:outline-none focus:border-blue-500 transition-colors cursor-pointer"
+                className="text-xs bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-full focus:outline-none focus:border-blue-500 transition-colors cursor-pointer"
               >
                 {aiModels.map(model => (
                   <option key={model.value} value={model.value}>{model.label}</option>
