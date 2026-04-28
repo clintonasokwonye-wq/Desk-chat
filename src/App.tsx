@@ -884,11 +884,15 @@ function TemplatesPage() {
           ],
         }),
       });
-      if (!response.ok) throw new Error(`API error: ${response.status}`);
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(`API error: ${response.status} - ${errorData.message || 'Unknown error'}`);
+      }
       const data = await response.json();
       const replyText = data?.message?.content?.[0]?.text || data?.text || 'Sorry, I could not generate a response.';
       setAiMessages(prev => prev.map(m => m.loading ? { ...m, text: replyText, loading: false } : m));
     } catch (err: any) {
+      console.error('Cohere API Error:', err);
       setAiMessages(prev => prev.map(m => m.loading ? { ...m, text: `⚠️ Request failed: ${err.message}`, loading: false } : m));
     } finally {
       setIsAiLoading(false);
@@ -903,9 +907,6 @@ function TemplatesPage() {
     { value: 'command-a-translate-08-2025', label: 'Command A Translate (Aug 2025) ⭐' },
     { value: 'command-r-plus-08-2024', label: 'Command R+ (Aug 2024)' },
     { value: 'command-r-08-2024', label: 'Command R (Aug 2024)' },
-    { value: 'command-r-03-2024', label: 'Command R (Mar 2024)' },
-    { value: 'command-r-plus', label: 'Command R+ (Latest)' },
-    { value: 'command-r', label: 'Command R (Latest)' },
   ];
 
   return (
