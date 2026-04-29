@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { io, Socket } from 'socket.io-client';
 
 // ─── CONFIGURATION ─────────────────────────────────────────────────────────
-const CHAT_SERVER_URL = 'https://vehicle2u-admin.onrender.com';
+const CHAT_SERVER_URL = 'https://vehicle2u-livechat-northflank.onrender.com';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
